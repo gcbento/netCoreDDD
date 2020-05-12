@@ -1,12 +1,10 @@
-﻿using JogosAPI.Application.Models;
+﻿using JogosAPI.Application.Models.Request;
+using JogosAPI.Application.Models.Response;
 using JogosAPI.Domain.Filters;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JogosAPI.Application.Interfaces
 {
-    public interface IPurchaseAppService : IBaseAppService<PurchaseModel, PurchaseFilter>
+    public interface IPurchaseAppService : IBaseAppService<PurchaseRequest, PurchaseResponse, PurchaseFilter>
     {
     }
 }

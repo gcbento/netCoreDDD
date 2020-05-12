@@ -1,12 +1,10 @@
-﻿using JogosAPI.Application.Models;
+﻿using JogosAPI.Application.Models.Request;
+using JogosAPI.Application.Models.Response;
 using JogosAPI.Domain.Filters;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JogosAPI.Application.Interfaces
 {
-    public interface IGameAppService : IBaseAppService<GameModel, GameFilter>
+    public interface IGameAppService : IBaseAppService<GameRequest, GameResponse, GameFilter>
     {
     }
 }

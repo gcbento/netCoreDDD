@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace JogosAPI.Application.Models
+namespace JogosAPI.Application.Models.Response
 {
-    public class BaseModel
+    public class BaseResponse
     {
         public int Id { get; set; }
     }

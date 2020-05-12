@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace JogosAPI.Application.Models
+﻿namespace JogosAPI.Application.Models.Response
 {
     public class ResponseModel<T>
     {

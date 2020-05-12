@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
 using JogosAPI.Application.Interfaces;
-using JogosAPI.Application.Models;
+using JogosAPI.Application.Models.Request;
+using JogosAPI.Application.Models.Response;
 using JogosAPI.Domain.CommandHandlers;
 using JogosAPI.Domain.Entities;
 using JogosAPI.Domain.Filters;
@@ -13,9 +13,10 @@ using System.Linq;
 
 namespace JogosAPI.Application.Services
 {
-    public class BaseAppService<TEntity, TModel, TFilter> : IBaseAppService<TModel, TFilter>
-        where TModel : BaseModel
+    public class BaseAppService<TEntity, TRequest, TResponse, TFilter> : IBaseAppService<TRequest, TResponse, TFilter>
         where TEntity : BaseEntity
+        where TRequest : BaseRequest
+        where TResponse : BaseResponse
         where TFilter : BaseFilter
     {
         public readonly IBaseRepository<TEntity, TFilter> Repository;
@@ -30,20 +31,21 @@ namespace JogosAPI.Application.Services
             Validate = validation;
         }
 
-        public ResponseModel<TModel> Add(TModel model)
+        public virtual ResponseModel<bool> Add(TRequest model)
         {
             var entity = Mapper.Map<TEntity>(model);
             var entityValidate = Validate.Validate(entity);
 
             if (entityValidate.IsValid)
             {
-                model = Mapper.Map<TModel>(Repository.Add(entity));
-                return ResponseModel<TModel>.GetResponse(model);
+                model = Mapper.Map<TRequest>(Repository.Add(entity));
+                var added = model.Id > 0;
+                return ResponseModel<bool>.GetResponse(added);
             }
             else
             {
                 var errors = CommandHandler.NotifyValidationErrors(entityValidate.Errors);
-                return ResponseModel<TModel>.GetResponse(errors);
+                return ResponseModel<bool>.GetResponse(errors);
             }
         }
 
@@ -53,21 +55,23 @@ namespace JogosAPI.Application.Services
             return ResponseModel<bool>.GetResponse(delete);
         }
 
-        public virtual ResponseModel<List<TModel>> GetAll(TFilter filter)
+        public virtual ResponseModel<List<TResponse>> GetAll(TFilter filter)
         {
-            var list = Mapper.Map<List<TModel>>(Repository.GetAll(filter).ToList());
-            var resultList = ResponseModel<List<TModel>>.GetResponse(list);
+            var list = Mapper.Map<List<TResponse>>(Repository.GetAll(filter).ToList());
+            var resultList = ResponseModel<List<TResponse>>.GetResponse(list);
+
             return resultList;
         }
 
-        public virtual ResponseModel<TModel> GetBy(TFilter filter)
+        public virtual ResponseModel<TResponse> GetBy(TFilter filter)
         {
-            var obj = Mapper.Map<TModel>(Repository.GetBy(filter));
-            var result = ResponseModel<TModel>.GetResponse(obj);
+            var obj = Mapper.Map<TResponse>(Repository.GetBy(filter));
+            var result = ResponseModel<TResponse>.GetResponse(obj);
+
             return result;
         }
 
-        public ResponseModel<bool> Update(TModel model)
+        public virtual ResponseModel<bool> Update(TRequest model)
         {
             var entity = Mapper.Map<TEntity>(model);
             var entityValidate = Validate.Validate(entity);

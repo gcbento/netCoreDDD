@@ -2,6 +2,7 @@
 using JogosAPI.Domain.Filters;
 using JogosAPI.Domain.Interfaces;
 using JogosAPI.Infra.Data.Context;
+using JogosAPI.Infra.Data.Queries;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,26 +11,34 @@ using System.Text;
 
 namespace JogosAPI.Infra.Data.Repositories
 {
-    public class BaseRepository<TEntity, TFilter> : IBaseRepository<TEntity, TFilter>, IDisposable
+    public class BaseRepository<TEntity, TFilter, TQuery> : IBaseRepository<TEntity, TFilter>, IDisposable
         where TEntity : BaseEntity
         where TFilter : BaseFilter
+        where TQuery : BaseQuery<TEntity, TFilter>, new()
     {
         protected readonly JogosAPIContext Db;
         protected readonly DbSet<TEntity> DbSet;
+        protected TQuery CreateQuery;
+
+        public IQueryable<TEntity> Query
+        {
+            get { return DbSet.AsNoTracking(); }
+        }
 
         public BaseRepository(JogosAPIContext context)
         {
             Db = context;
             DbSet = Db.Set<TEntity>();
+            CreateQuery = new TQuery();
         }
 
-        public TEntity Add(TEntity entity)
+        public virtual TEntity Add(TEntity entity)
         {
             DbSet.Add(entity);
             return SaveChanges() > 0 ? entity : null;
         }
 
-        public bool Delete(int id)
+        public virtual bool Delete(int id)
         {
             DbSet.Remove(DbSet.Find(id));
             return SaveChanges() > 0;
@@ -37,16 +46,22 @@ namespace JogosAPI.Infra.Data.Repositories
 
         public virtual IQueryable<TEntity> GetAll(TFilter filter)
         {
-            return DbSet;
+            return Query;
+        }
+
+        public virtual TEntity GetBy(int id)
+        {
+            return Query.FirstOrDefault(x => x.Id == id);
         }
 
         public virtual TEntity GetBy(TFilter filter)
         {
-            return DbSet.Find(filter.Id);
+            return Query.FirstOrDefault(x => x.Id == filter.Id);
         }
 
-        public bool Update(TEntity entity)
+        public virtual bool Update(TEntity entity)
         {
+            Db.Entry(entity).State = EntityState.Detached;
             DbSet.Update(entity);
             return SaveChanges() > 0;
         }

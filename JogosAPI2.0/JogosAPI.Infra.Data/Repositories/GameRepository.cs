@@ -2,31 +2,41 @@
 using JogosAPI.Domain.Filters;
 using JogosAPI.Domain.Interfaces;
 using JogosAPI.Infra.Data.Context;
-using System;
-using System.Collections.Generic;
+using JogosAPI.Infra.Data.Queries;
 using System.Linq;
-using System.Text;
 
 namespace JogosAPI.Infra.Data.Repositories
 {
-    public class GameRepository : BaseRepository<Game, GameFilter>, IGameRepository
+    public class GameRepository : BaseRepository<Game, GameFilter, GameQuery>, IGameRepository
     {
-        public GameRepository(JogosAPIContext context) : base(context)
-        { }
+        private readonly IGameAccountRepository _gameAccountRepository;
+
+        public GameRepository(JogosAPIContext context, IGameAccountRepository gameAccountRepository) : base(context)
+        {
+            _gameAccountRepository = gameAccountRepository;
+        }
+
+        public override bool Update(Game entity)
+        {
+            if (entity.Accounts != null && entity.Accounts.Count > 0)
+                foreach (var account in entity.Accounts)
+                    _gameAccountRepository.DeleteByKey(entity.Id, account.AccountId);
+
+            return base.Update(entity);
+        }
 
         public override Game GetBy(GameFilter filter)
         {
-            if (filter != null)
-            {
-                if (!string.IsNullOrEmpty(filter.Name))
-                    return DbSet.AsQueryable().FirstOrDefault(x => x.Name == filter.Name);
-                else if (filter.Id > 0)
-                    return DbSet.Find(filter.Id);
+            var query = CreateQuery.Where(Query, filter);
+            query = CreateQuery.Select(query);
+            return query.FirstOrDefault();
+        }
 
-                return base.GetBy(filter);
-            }
-
-            return null;
+        public override IQueryable<Game> GetAll(GameFilter filter)
+        {
+            var query = CreateQuery.Where(Query, filter, true);
+            query = CreateQuery.Select(query);
+            return query;
         }
     }
 }

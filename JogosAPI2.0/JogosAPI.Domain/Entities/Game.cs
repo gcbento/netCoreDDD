@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace JogosAPI.Domain.Entities
 {
@@ -10,9 +8,6 @@ namespace JogosAPI.Domain.Entities
 
         public bool Completed { get; set; }
 
-        public int? AccountId { get; set; }
-        public virtual Account Account { get; set; }
-
-        public virtual ICollection<Sale> Sales { get; set; }
+        public List<GameAccount> Accounts { get; set; }
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using JogosAPI.Application.Models;
-using Microsoft.AspNetCore.Http;
+﻿using JogosAPI.Application.Models.Response;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JogosAPI.WebAPI.Controllers

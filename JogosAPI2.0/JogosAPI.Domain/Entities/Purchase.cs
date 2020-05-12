@@ -10,8 +10,6 @@ namespace JogosAPI.Domain.Entities
 
         public decimal Value { get; set; }
 
-        public int GamesId { get; set; }
-
-        public virtual Game Games { get; set; }
+        public Game Game { get; set; }
     }
 }

@@ -13,6 +13,7 @@ namespace JogosAPI.Infra.Data.Context
 
         public DbSet<Game> Games { get; set; }
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<GameAccount> GameAccounts { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<WishGame> WishGames { get; set; }
         public DbSet<Sale> Sales { get; set; }
@@ -21,6 +22,7 @@ namespace JogosAPI.Infra.Data.Context
         {
             modelBuilder.ApplyConfiguration(new GameConfig());
             modelBuilder.ApplyConfiguration(new AccountConfig());
+            modelBuilder.ApplyConfiguration(new GameAccountConfig());
             modelBuilder.ApplyConfiguration(new PurchaseConfig());
             modelBuilder.ApplyConfiguration(new SaleConfig());
             modelBuilder.ApplyConfiguration(new WishGameConfig());

@@ -30,10 +30,11 @@ namespace JogosAPI.Infra.CrossCutting.IoC
             // Infra - Data
             services.AddScoped<IGameRepository, GameRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IGameAccountRepository, GameAccountRepository>();
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<ISaleRepository, SaleRepository>();
             services.AddScoped<IWishGameRepository, WishGameRepository>();
-            services.AddScoped<JogosAPIContext>();
+            services.AddDbContext<JogosAPIContext>(ServiceLifetime.Transient);
         }
     }
 }

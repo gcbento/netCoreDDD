@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using JogosAPI.Application.Models;
+using JogosAPI.Application.Models.Request;
 using JogosAPI.Domain.Entities;
+using System.Collections.Generic;
 
 namespace JogosAPI.Application.AutoMapper
 {
@@ -8,13 +10,10 @@ namespace JogosAPI.Application.AutoMapper
     {
         public ModelToDomainMappingProfile()
         {
-            //CreateMap<GameModel, RegisterNewCustomerCommand>()
-            //    .ConstructUsing(c => new RegisterNewCustomerCommand(c.Name, c.Email, c.BirthDate));
-            //CreateMap<CustomerViewModel, UpdateCustomerCommand>()
-            //    .ConstructUsing(c => new UpdateCustomerCommand(c.Id, c.Name, c.Email, c.BirthDate));
-
-            CreateMap<BaseModel, BaseEntity>();
-            CreateMap<GameModel, Game>();
+            CreateMap<BaseRequest, BaseEntity>();
+            CreateMap<GameRequest, Game>();
+            CreateMap<AccountRequest, Account>();
+            CreateMap<GameAccountRequest, GameAccount>();
         }
     }
 }

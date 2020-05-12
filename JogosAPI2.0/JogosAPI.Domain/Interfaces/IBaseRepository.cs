@@ -17,6 +17,8 @@ namespace JogosAPI.Domain.Interfaces
 
         bool Delete(int id);
 
+        TEntity GetBy(int id);
+
         TEntity GetBy(TFilter filter);
 
         IQueryable<TEntity> GetAll(TFilter filter);

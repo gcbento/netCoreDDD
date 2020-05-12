@@ -1,21 +1,23 @@
-﻿using JogosAPI.Application.Models;
+﻿using JogosAPI.Application.Models.Request;
+using JogosAPI.Application.Models.Response;
 using JogosAPI.Domain.Filters;
 using System.Collections.Generic;
 
 namespace JogosAPI.Application.Interfaces
 {
-    public interface IBaseAppService<TModel, TFilter> 
-        where TModel : BaseModel
+    public interface IBaseAppService<TRequest, TResponse, TFilter> 
+        where TRequest : BaseRequest
+        where TResponse: BaseResponse
         where TFilter : BaseFilter
     {
-        ResponseModel<TModel> Add(TModel model);
+        ResponseModel<bool> Add(TRequest model);
 
-        ResponseModel<bool> Update(TModel model);
+        ResponseModel<bool> Update(TRequest model);
 
         ResponseModel<bool> Delete(int id);
 
-        ResponseModel<TModel> GetBy(TFilter id);
+        ResponseModel<TResponse> GetBy(TFilter id);
 
-        ResponseModel<List<TModel>> GetAll(TFilter filter);
+        ResponseModel<List<TResponse>> GetAll(TFilter filter);
     }
 }

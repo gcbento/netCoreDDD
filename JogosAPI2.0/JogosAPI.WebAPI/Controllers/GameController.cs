@@ -1,7 +1,9 @@
 ﻿using System;
 using JogosAPI.Application.Interfaces;
 using JogosAPI.Application.Models;
+using JogosAPI.Application.Models.Request;
 using JogosAPI.Domain.Filters;
+using JogosAPI.WebAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JogosAPI.WebAPI.Controllers
@@ -21,21 +23,31 @@ namespace JogosAPI.WebAPI.Controllers
         [Route("")]
         public ActionResult Get([FromQuery] GameFilter filter)
         {
+            var games = _gameService.GetBy(filter);
+            return GetResponse(games);
+        }
+
+        [HttpGet]
+        [Route("getList")]
+        public ActionResult GetList([FromQuery] GameFilter filter)
+        {
             var games = _gameService.GetAll(filter);
             return GetResponse(games);
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody] GameModel model)
+        [ValidateModel]
+        public ActionResult Post([FromBody] GameRequest request)
         {
-            var result = _gameService.Add(model);
+            var result = _gameService.Add(request);
             return GetResponse(result);
         }
 
         [HttpPut]
-        public ActionResult Put([FromBody] GameModel model)
+        [ValidateModel]
+        public ActionResult Put([FromBody] GameRequest request)
         {
-            var result = _gameService.Update(model);
+            var result = _gameService.Update(request);
             return GetResponse(result);
         }
 

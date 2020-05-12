@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace JogosAPI.Domain.Entities
 {
@@ -17,9 +16,6 @@ namespace JogosAPI.Domain.Entities
 
         public DateTime DeactivationDate { get; set; }
 
-        [NotMapped]
-        public int GameId { get; set; }
-
-        public virtual ICollection<Game> Games { get; set; }
+        public ICollection<GameAccount> Games { get; set; }
     }
 }

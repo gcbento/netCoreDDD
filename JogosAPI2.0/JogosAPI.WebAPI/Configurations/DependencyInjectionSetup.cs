@@ -1,4 +1,5 @@
 ﻿using JogosAPI.Infra.CrossCutting.IoC;
+using JogosAPI.WebAPI.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 

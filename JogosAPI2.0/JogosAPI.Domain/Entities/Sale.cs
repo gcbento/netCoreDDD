@@ -14,6 +14,6 @@ namespace JogosAPI.Domain.Entities
 
         public DateTime EndDatePeriod { get; set; }
 
-        public virtual Game Game { get; set; }
+        public Game Game { get; set; }
     }
 }

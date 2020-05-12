@@ -11,19 +11,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infra", "4 - Infra", "{014771A0-2C26-49E1-A235-689B22D5C4B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JogosAPI.Domain", "JogosAPI.Domain\JogosAPI.Domain.csproj", "{61514AD3-182B-4EEA-BB08-B0F0CF6E153A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JogosAPI.Domain", "JogosAPI.Domain\JogosAPI.Domain.csproj", "{61514AD3-182B-4EEA-BB08-B0F0CF6E153A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.1 - Data", "4.1 - Data", "{D9195BF6-2C46-4026-B455-096E01BD43C1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.2 - CrossCutting", "4.2 - CrossCutting", "{AF5A75B7-F446-4CB4-9F12-7BC3939CD60F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JogosAPI.Infra.Data", "JogosAPI.Infra.Data\JogosAPI.Infra.Data.csproj", "{4EE98FCC-206A-47E3-8F74-0FF7F922B93D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JogosAPI.Infra.Data", "JogosAPI.Infra.Data\JogosAPI.Infra.Data.csproj", "{4EE98FCC-206A-47E3-8F74-0FF7F922B93D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JogosAPI.Infra.CrossCutting.IoC", "JogosAPI.Infra.CrossCutting.IoC\JogosAPI.Infra.CrossCutting.IoC.csproj", "{877ADC1B-5950-4CBD-9C39-EA5EC3246DFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JogosAPI.Infra.CrossCutting.IoC", "JogosAPI.Infra.CrossCutting.IoC\JogosAPI.Infra.CrossCutting.IoC.csproj", "{877ADC1B-5950-4CBD-9C39-EA5EC3246DFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JogosAPI.Application", "JogosAPI.Application\JogosAPI.Application.csproj", "{81BFE69A-99C2-42AC-90BE-8BEE4424FE0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JogosAPI.Application", "JogosAPI.Application\JogosAPI.Application.csproj", "{81BFE69A-99C2-42AC-90BE-8BEE4424FE0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JogosAPI.WebAPI", "JogosAPI.WebAPI\JogosAPI.WebAPI.csproj", "{0584A6CA-A611-4995-8DD7-5342CF29C39F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JogosAPI.WebAPI", "JogosAPI.WebAPI\JogosAPI.WebAPI.csproj", "{0584A6CA-A611-4995-8DD7-5342CF29C39F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

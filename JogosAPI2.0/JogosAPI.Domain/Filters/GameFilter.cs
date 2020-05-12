@@ -7,6 +7,7 @@ namespace JogosAPI.Domain.Filters
     public class GameFilter : BaseFilter
     {
         public string Name { get; set; }
+        public int AccountId { get; set; }
     }
 }
     
