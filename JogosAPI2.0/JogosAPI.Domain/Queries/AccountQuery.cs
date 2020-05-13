@@ -2,11 +2,11 @@
 using JogosAPI.Domain.Filters;
 using System.Linq;
 
-namespace JogosAPI.Infra.Data.Queries
+namespace JogosAPI.Domain.Queries
 {
-    public class AccountQuery : BaseQuery<Account, AccountFilter>
+    public class AccountQuery
     {
-        public override IQueryable<Account> Where(IQueryable<Account> query, AccountFilter filter, bool contais = false)
+        public IQueryable<Account> Where(IQueryable<Account> query, AccountFilter filter, bool contais = false)
         {
             if (filter != null)
             {

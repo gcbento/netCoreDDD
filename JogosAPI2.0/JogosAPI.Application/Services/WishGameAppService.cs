@@ -11,7 +11,10 @@ namespace JogosAPI.Application.Services
 {
     public class WishGameAppService : BaseAppService<WishGame, WishGameRequest, WishGameResponse, WishGameFilter>, IWishGameAppService
     {
-        public WishGameAppService(IWishGameRepository repository, IWishGameValidation validation, IMapper mapper) : base(repository, validation, mapper)
+        public WishGameAppService(IWishGameRepository repository, 
+                                  IWishGameValidation validation, 
+                                  IMapper mapper,
+                                  ILoggerRepository logger) : base(repository, validation, mapper, logger)
         {
 
         }

@@ -14,7 +14,8 @@ namespace JogosAPI.Application.Services
     {
         public AccountAppService(IAccountRepository repository,
                                  IAccountValidation validation,
-                                 IMapper mapper) : base(repository, validation, mapper)
+                                 IMapper mapper,
+                                 ILoggerRepository logger) : base(repository, validation, mapper, logger)
         {
         }
     }

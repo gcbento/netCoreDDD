@@ -3,7 +3,7 @@ using JogosAPI.Domain.Filters;
 
 namespace JogosAPI.Domain.Interfaces
 {
-    public interface IAccountRepository : IBaseRepository<Account, AccountFilter>
+    public interface ILoggerRepository : IBaseRepository<Logger, LoggerFilter>
     {
     }
 }

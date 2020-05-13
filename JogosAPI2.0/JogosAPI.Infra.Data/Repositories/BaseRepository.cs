@@ -2,23 +2,18 @@
 using JogosAPI.Domain.Filters;
 using JogosAPI.Domain.Interfaces;
 using JogosAPI.Infra.Data.Context;
-using JogosAPI.Infra.Data.Queries;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace JogosAPI.Infra.Data.Repositories
 {
-    public class BaseRepository<TEntity, TFilter, TQuery> : IBaseRepository<TEntity, TFilter>, IDisposable
+    public class BaseRepository<TEntity, TFilter> : IBaseRepository<TEntity, TFilter>, IDisposable
         where TEntity : BaseEntity
         where TFilter : BaseFilter
-        where TQuery : BaseQuery<TEntity, TFilter>, new()
     {
         protected readonly JogosAPIContext Db;
         protected readonly DbSet<TEntity> DbSet;
-        protected TQuery CreateQuery;
 
         public IQueryable<TEntity> Query
         {
@@ -29,46 +24,70 @@ namespace JogosAPI.Infra.Data.Repositories
         {
             Db = context;
             DbSet = Db.Set<TEntity>();
-            CreateQuery = new TQuery();
         }
 
         public virtual TEntity Add(TEntity entity)
         {
-            DbSet.Add(entity);
-            return SaveChanges() > 0 ? entity : null;
+            try
+            {
+                DbSet.Add(entity);
+                return SaveChanges() > 0 ? entity : null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"message: {ex.Message} | stackTrace: {ex.StackTrace}");
+            }
         }
 
         public virtual bool Delete(int id)
         {
-            DbSet.Remove(DbSet.Find(id));
-            return SaveChanges() > 0;
+            try
+            {
+                DbSet.Remove(DbSet.Find(id));
+                return SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"message: {ex.Message} | stackTrace: {ex.StackTrace}");
+            }
         }
 
-        public virtual IQueryable<TEntity> GetAll(TFilter filter)
+        public virtual IQueryable<TEntity> GetAll(TFilter filter, bool contains = false)
         {
-            return Query;
-        }
-
-        public virtual TEntity GetBy(int id)
-        {
-            return Query.FirstOrDefault(x => x.Id == id);
-        }
-
-        public virtual TEntity GetBy(TFilter filter)
-        {
-            return Query.FirstOrDefault(x => x.Id == filter.Id);
+            try
+            {
+                return Query;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"message: {ex.Message} | stackTrace: {ex.StackTrace}");
+            }
         }
 
         public virtual bool Update(TEntity entity)
         {
-            Db.Entry(entity).State = EntityState.Detached;
-            DbSet.Update(entity);
-            return SaveChanges() > 0;
+            try
+            {
+                Db.Entry(entity).State = EntityState.Detached;
+                DbSet.Update(entity);
+                return SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"message: {ex.Message} | stackTrace: {ex.StackTrace}");
+            }
         }
 
         public int SaveChanges()
         {
-            return Db.SaveChanges();
+            try
+            {
+                return Db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"message: {ex.Message} | stackTrace: {ex.StackTrace}");
+            }
         }
 
         public void Dispose()

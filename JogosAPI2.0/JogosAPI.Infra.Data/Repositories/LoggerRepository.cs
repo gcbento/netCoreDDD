@@ -5,9 +5,9 @@ using JogosAPI.Infra.Data.Context;
 
 namespace JogosAPI.Infra.Data.Repositories
 {
-    public class SaleRepository : BaseRepository<Sale, SaleFilter>, ISaleRepository
+    public class LoggerRepository : BaseRepository<Logger, LoggerFilter>, ILoggerRepository
     {
-        public SaleRepository(JogosAPIContext context) : base(context)
-        { }
+        public LoggerRepository(JogosAPIContext context) : base(context)
+        {}
     }
 }

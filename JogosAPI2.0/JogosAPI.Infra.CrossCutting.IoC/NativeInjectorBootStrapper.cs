@@ -34,6 +34,7 @@ namespace JogosAPI.Infra.CrossCutting.IoC
             services.AddScoped<IPurchaseRepository, PurchaseRepository>();
             services.AddScoped<ISaleRepository, SaleRepository>();
             services.AddScoped<IWishGameRepository, WishGameRepository>();
+            services.AddScoped<ILoggerRepository, LoggerRepository>();
             services.AddDbContext<JogosAPIContext>(ServiceLifetime.Transient);
         }
     }

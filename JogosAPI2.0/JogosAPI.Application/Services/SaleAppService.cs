@@ -11,7 +11,10 @@ namespace JogosAPI.Application.Services
 {
     public class SaleAppService : BaseAppService<Sale, SaleRequest, SaleResponse, SaleFilter>, ISaleAppService
     {
-        public SaleAppService(ISaleRepository repository, ISaleValidation validation, IMapper mapper) : base(repository, validation, mapper)
+        public SaleAppService(ISaleRepository repository, 
+                              ISaleValidation validation, 
+                              IMapper mapper,
+                              ILoggerRepository logger) : base(repository, validation, mapper, logger)
         {
 
         }

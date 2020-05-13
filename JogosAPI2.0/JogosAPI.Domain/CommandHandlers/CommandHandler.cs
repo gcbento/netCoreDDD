@@ -1,5 +1,7 @@
 ﻿using FluentValidation.Results;
+using JogosAPI.Domain.Entities;
 using JogosAPI.Domain.Interfaces;
+using JogosAPI.Domain.Util;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,6 +25,39 @@ namespace JogosAPI.Domain.CommandHandlers
             }
 
             return null;
+        }
+        public static string[] NotifyValidationErrors(string msg)
+        {
+            List<string> messageErrors = null;
+            if (!string.IsNullOrEmpty(msg))
+            {
+                messageErrors = new List<string>();
+                messageErrors.Add(msg);
+
+                return messageErrors.ToArray();
+            }
+
+            return null;
+        }
+
+        public static void AddLogger(ILoggerRepository logger, string msg, EnunsAPI.Logtype typeLog, string request, string response)
+        {
+            try
+            {
+                var loggerEntity = new Logger()
+                {
+                    Type = (int)typeLog, 
+                    Message = msg,
+                    Request = request,
+                    Response = response,
+                    Date = DateTime.Now
+                };
+
+                logger.Add(loggerEntity);
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 }

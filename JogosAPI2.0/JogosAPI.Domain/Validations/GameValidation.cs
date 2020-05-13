@@ -4,6 +4,7 @@ using JogosAPI.Domain.Filters;
 using JogosAPI.Domain.Interfaces;
 using JogosAPI.Domain.Validations.Interfaces;
 using System.Linq;
+using System;
 
 namespace JogosAPI.Domain.Validations
 {
@@ -19,24 +20,32 @@ namespace JogosAPI.Domain.Validations
 
         private void Validate()
         {
-            var accountId = 0;
-            RuleFor(g => g.Id)
-                .Must((game, id) => GameIdExists(game)).WithMessage(g => $"Jogo id '{g.Id}' não encontrado");
+            try
+            {
+                var accountId = 0;
+                RuleFor(g => g.Id)
+                    .Must((game, id) => GameIdExists(game)).WithMessage(g => $"Jogo id '{g.Id}' não encontrado");
 
-            RuleFor(g => g.Name)
-                .NotEmpty().WithMessage("Nome do jogo é obrigatório.")
-                .MinimumLength(3).WithMessage("Nome do jogo deve ter no mínimo 3 caracteres.")
-                .Must((game, name) => CheckGameAlreadyAdd(game)).WithMessage(g => $"Jogo '{g.Name}' já está cadastrado");
+                RuleFor(g => g.Name)
+                    .NotEmpty().WithMessage("Nome do jogo é obrigatório.")
+                    .MinimumLength(3).WithMessage("Nome do jogo deve ter no mínimo 3 caracteres.")
+                    .Must((game, name) => CheckGameAlreadyAdd(game)).WithMessage(g => $"Jogo '{g.Name}' já está cadastrado");
 
-            RuleFor(g => g.Accounts)
-                .Must((game, name) => AccountExists(game, out accountId)).WithMessage(g => $"Conta id '{accountId}' não encontrada.");
+                RuleFor(g => g.Accounts)
+                    .Must((game, name) => AccountExists(game, out accountId)).WithMessage(g => $"Conta id '{accountId}' não encontrada.");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         private bool GameIdExists(Game game)
         {
             if (game.Id > 0)
             {
-                var objGame = Repository.GetBy(game.Id);
+                Filter.Id = game.Id;
+                var objGame = Repository.GetAll(Filter).FirstOrDefault();
                 return objGame != null;
             }
 
@@ -46,7 +55,7 @@ namespace JogosAPI.Domain.Validations
         private bool CheckGameAlreadyAdd(Game game)
         {
             Filter.Name = game.Name;
-            var objGame = Repository.GetBy(Filter);
+            var objGame = Repository.GetAll(Filter).FirstOrDefault();
 
             if (objGame != null)
                 return game.Id == objGame.Id;
@@ -61,7 +70,7 @@ namespace JogosAPI.Domain.Validations
             {
                 foreach (var accountsId in game.Accounts)
                 {
-                    var account = _accountRepository.GetBy(accountsId.AccountId);
+                    var account = _accountRepository.GetAll(new AccountFilter() { Id = accountsId.AccountId }).FirstOrDefault();
 
                     if (account == null)
                     {

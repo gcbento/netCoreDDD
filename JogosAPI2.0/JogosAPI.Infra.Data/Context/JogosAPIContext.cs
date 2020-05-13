@@ -17,6 +17,7 @@ namespace JogosAPI.Infra.Data.Context
         public DbSet<Purchase> Purchases { get; set; }
         public DbSet<WishGame> WishGames { get; set; }
         public DbSet<Sale> Sales { get; set; }
+        public DbSet<Logger> Logger { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

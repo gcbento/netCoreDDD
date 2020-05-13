@@ -11,7 +11,10 @@ namespace JogosAPI.Application.Services
 {
     public class PurchaseAppService: BaseAppService<Purchase, PurchaseRequest, PurchaseResponse, PurchaseFilter>, IPurchaseAppService
     {
-        public PurchaseAppService(IPurchaseRepository repository, IPurchaseValidation validation, IMapper mapper) : base(repository, validation, mapper)
+        public PurchaseAppService(IPurchaseRepository repository, 
+                                  IPurchaseValidation validation, 
+                                  IMapper mapper, 
+                                  ILoggerRepository logger) : base(repository, validation, mapper, logger)
         {
 
         }

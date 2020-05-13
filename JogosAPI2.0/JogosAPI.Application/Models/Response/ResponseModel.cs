@@ -25,5 +25,12 @@
             response.Messages = errors;
             return response;
         }
+
+        public static ResponseModel<T> GetErrorResponse()
+        {
+            var response = new ResponseModel<T>();
+            response.Messages = new string[] { "Ocorreu um erro ao executar" };
+            return response;
+        }
     }
 }

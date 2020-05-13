@@ -21,18 +21,18 @@ namespace JogosAPI.WebAPI.Controllers
 
         [HttpGet]
         [Route("")]
-        public ActionResult Get([FromQuery] GameFilter filter)
+        public ActionResult Get([FromQuery] GameFilter filter, int pageNumber = 0, int pageSize = 0)
         {
-            var games = _gameService.GetBy(filter);
-            return GetResponse(games);
-        }
-
-        [HttpGet]
-        [Route("getList")]
-        public ActionResult GetList([FromQuery] GameFilter filter)
-        {
-            var games = _gameService.GetAll(filter);
-            return GetResponse(games);
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                var games = _gameService.GetAll(filter, pageNumber, pageSize);
+                return GetResponse(games);
+            }
+            else
+            {
+                var game = _gameService.GetBy(filter);
+                return GetResponse(game);
+            }
         }
 
         [HttpPost]

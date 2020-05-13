@@ -1,13 +1,14 @@
 ﻿using JogosAPI.Domain.Entities;
 using JogosAPI.Domain.Filters;
 using JogosAPI.Domain.Interfaces;
+using JogosAPI.Domain.Queries;
 using JogosAPI.Infra.Data.Context;
-using JogosAPI.Infra.Data.Queries;
 using System.Linq;
+using System;
 
 namespace JogosAPI.Infra.Data.Repositories
 {
-    public class GameRepository : BaseRepository<Game, GameFilter, GameQuery>, IGameRepository
+    public class GameRepository : BaseRepository<Game, GameFilter>, IGameRepository
     {
         private readonly IGameAccountRepository _gameAccountRepository;
 
@@ -18,25 +19,32 @@ namespace JogosAPI.Infra.Data.Repositories
 
         public override bool Update(Game entity)
         {
-            if (entity.Accounts != null && entity.Accounts.Count > 0)
-                foreach (var account in entity.Accounts)
-                    _gameAccountRepository.DeleteByKey(entity.Id, account.AccountId);
+            try
+            {
+                if (entity.Accounts != null && entity.Accounts.Count > 0)
+                    foreach (var account in entity.Accounts)
+                        _gameAccountRepository.DeleteByKey(entity.Id, account.AccountId);
 
-            return base.Update(entity);
+                return base.Update(entity);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"message: {ex.Message} | stackTrace: {ex.StackTrace}");
+            }
         }
 
-        public override Game GetBy(GameFilter filter)
+        public override IQueryable<Game> GetAll(GameFilter filter, bool contains = false)
         {
-            var query = CreateQuery.Where(Query, filter);
-            query = CreateQuery.Select(query);
-            return query.FirstOrDefault();
-        }
-
-        public override IQueryable<Game> GetAll(GameFilter filter)
-        {
-            var query = CreateQuery.Where(Query, filter, true);
-            query = CreateQuery.Select(query);
-            return query;
+            try
+            {
+                var query = Query.Where(filter, contains)
+                                 .Select();
+                return query;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"message: {ex.Message} | stackTrace: {ex.StackTrace}");
+            }
         }
     }
 }
