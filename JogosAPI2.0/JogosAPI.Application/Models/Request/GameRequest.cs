@@ -10,6 +10,6 @@ namespace JogosAPI.Application.Models.Request
 
         public bool Completed { get; set; }
 
-        public ICollection<GameAccountRequest> Accounts { get; set; }
+        public List<GameAccountRequest> Accounts { get; set; }
     }
 }

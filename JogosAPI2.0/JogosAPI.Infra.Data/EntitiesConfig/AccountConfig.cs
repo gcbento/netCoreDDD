@@ -15,9 +15,6 @@ namespace JogosAPI.Infra.Data.EntitiesConfig
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id)
-                .HasColumnName("Id");
-
             builder.Property(x => x.Email)
                 .HasColumnType("varchar(150)")
                 .HasMaxLength(150)

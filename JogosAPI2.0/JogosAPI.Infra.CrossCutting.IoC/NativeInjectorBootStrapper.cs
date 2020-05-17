@@ -16,6 +16,7 @@ namespace JogosAPI.Infra.CrossCutting.IoC
             // Application
             services.AddScoped<IGameAppService, GameAppService>();
             services.AddScoped<IAccountAppService, AccountAppService>();
+            services.AddScoped<IGameAccountAppService, GameAccountAppService>();
             services.AddScoped<IPurchaseAppService, PurchaseAppService>();
             services.AddScoped<ISaleAppService, SaleAppService>();
             services.AddScoped<IWishGameAppService, WishGameAppService>();
@@ -23,6 +24,7 @@ namespace JogosAPI.Infra.CrossCutting.IoC
             // Validation
             services.AddScoped<IGameValidation, GameValidation>();
             services.AddScoped<IAccountValidation, AccountValidation>();
+            services.AddScoped<IGameAccountValidation, GameAccountValidation>();
             services.AddScoped<IPurchaseValidation, PurchaseValidation>();
             services.AddScoped<ISaleValidation, SaleValidation>();
             services.AddScoped<IWishGameValidation, WishGameValidation>();

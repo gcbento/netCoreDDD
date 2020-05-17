@@ -15,8 +15,6 @@ namespace JogosAPI.Application.Services
                               ISaleValidation validation, 
                               IMapper mapper,
                               ILoggerRepository logger) : base(repository, validation, mapper, logger)
-        {
-
-        }
+        { }
     }
 }

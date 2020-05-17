@@ -5,6 +5,5 @@ namespace JogosAPI.Domain.Interfaces
 {
     public interface IGameRepository : IBaseRepository<Game, GameFilter>
     {
-         
     }
 }

@@ -8,52 +8,52 @@ namespace JogosAPI.WebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class GameController : BaseController
+    public class PurchaseController : BaseController
     {
-        private readonly IGameAppService _gameService;
+        private readonly IPurchaseAppService _purchaseAppService;
 
-        public GameController(IGameAppService gameService)
+        public PurchaseController(IPurchaseAppService purchaseAppService)
         {
-            _gameService = gameService;
+            _purchaseAppService = purchaseAppService;
         }
 
         [HttpGet]
         [Route("")]
         [ValidateFilterModel]
-        public ActionResult Get([FromQuery] GameFilter filter, int pageNumber = 0, int pageSize = 0)
+        public ActionResult Get([FromQuery] PurchaseFilter filter, int pageNumber = 0, int pageSize = 0)
         {
             if (pageNumber > 0 && pageSize > 0)
             {
-                var games = _gameService.GetAll(filter, pageNumber, pageSize);
+                var games = _purchaseAppService.GetAll(filter, pageNumber, pageSize);
                 return GetResponse(games);
             }
             else
             {
-                var game = _gameService.GetBy(filter);
+                var game = _purchaseAppService.GetBy(filter);
                 return GetResponse(game);
             }
         }
 
         [HttpPost]
         [ValidateModel]
-        public ActionResult Post([FromBody] GameRequest request)
+        public ActionResult Post([FromBody] PurchaseRequest request)
         {
-            var result = _gameService.Add(request);
+            var result = _purchaseAppService.Add(request);
             return GetResponse(result);
         }
 
         [HttpPut]
         [ValidateModel]
-        public ActionResult Put([FromBody] GameRequest request)
+        public ActionResult Put([FromBody] PurchaseRequest request)
         {
-            var result = _gameService.Update(request);
+            var result = _purchaseAppService.Update(request);
             return GetResponse(result);
         }
 
         [HttpDelete]
         public ActionResult Delete([FromQuery] int id)
         {
-            var result = _gameService.Delete(id);
+            var result = _purchaseAppService.Delete(id);
             return GetResponse(result);
         }
     }

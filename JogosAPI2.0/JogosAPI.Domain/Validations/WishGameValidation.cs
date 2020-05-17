@@ -8,7 +8,7 @@ using System.Text;
 
 namespace JogosAPI.Domain.Validations
 {
-    public class WishGameValidation : BaseValidation<WishGame, WishGameFilter>, IWishGameValidation
+    public class WishGameValidation : BaseValidation<WishGame, WishGameFilter, IWishGameRepository>, IWishGameValidation
     {
         public WishGameValidation(IWishGameRepository repository) : base(repository)
         {

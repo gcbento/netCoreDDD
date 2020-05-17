@@ -14,6 +14,8 @@ namespace JogosAPI.Application.AutoMapper
             CreateMap<GameRequest, Game>();
             CreateMap<AccountRequest, Account>();
             CreateMap<GameAccountRequest, GameAccount>();
+            CreateMap<PurchaseRequest, Purchase>();
+            CreateMap<SaleRequest, Sale>();
         }
     }
 }

@@ -4,8 +4,8 @@ using JogosAPI.Domain.Filters;
 
 namespace JogosAPI.Application.Interfaces
 {
-    public interface IAccountAppService : IBaseAppService<AccountRequest, AccountResponse, AccountFilter>
+    public interface IGameAccountAppService
     {
-        ResponseModel<bool?> RemoveGame(GameAccountRequest request);
+        ResponseModel<bool?> DeleteByKey(GameAccountRequest request);
     }
 }

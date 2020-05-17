@@ -3,7 +3,7 @@ using JogosAPI.Domain.Entities;
 using JogosAPI.Domain.Filters;
 using JogosAPI.Domain.Interfaces;
 using JogosAPI.Infra.Data.Context;
-using Microsoft.EntityFrameworkCore;
+using JogosAPI.Domain.Queries;
 using System.Linq;
 
 namespace JogosAPI.Infra.Data.Repositories
@@ -17,16 +17,11 @@ namespace JogosAPI.Infra.Data.Repositories
             _accountRepository = accountRepository;
         }
 
-        public IQueryable<GameAccount> GetByGameId(int gameId)
+        public IQueryable<GameAccount> GetBy(GameAccountFilter filter)
         {
             try
             {
-                var query = Query.Where(x => x.GameId == gameId);
-                query.ForEachAsync(x =>
-                {
-                    x.Account = _accountRepository.GetAll(new AccountFilter() { Id = x.Id }).FirstOrDefault();
-                });
-
+                var query = Query.Where(filter);
                 return query;
             }
             catch (Exception ex)
@@ -35,19 +30,12 @@ namespace JogosAPI.Infra.Data.Repositories
             }
         }
 
-        public bool DeleteByKey(int gameId, int accountId)
+        public bool DeleteByKey(GameAccount entity)
         {
             try
             {
-                var gameAccount = Query.FirstOrDefault(x => x.AccountId == accountId && x.GameId == gameId);
-
-                if (gameAccount != null)
-                {
-                    DbSet.Remove(gameAccount);
-                    return SaveChanges() > 0;
-                }
-
-                return false;
+                DbSet.Remove(entity);
+                return SaveChanges() > 0;
             }
             catch (Exception ex)
             {

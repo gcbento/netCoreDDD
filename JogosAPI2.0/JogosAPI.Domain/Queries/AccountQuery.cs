@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace JogosAPI.Domain.Queries
 {
-    public class AccountQuery
+    public static class AccountQuery
     {
-        public IQueryable<Account> Where(IQueryable<Account> query, AccountFilter filter, bool contais = false)
+        public static IQueryable<Account> Where(this IQueryable<Account> query, AccountFilter filter, bool contais = false)
         {
             if (filter != null)
             {
@@ -22,6 +22,25 @@ namespace JogosAPI.Domain.Queries
                 //if (filter.GameId > 0)
                 //    query = query.Where(x => x.Games.Any(y => y.Id == filter.GameId));
             }
+
+            return query;
+        }
+
+        public static IQueryable<Account> Select(this IQueryable<Account> query)
+        {
+            query = query.Select(a => new Account()
+            {
+                Id = a.Id,
+                Email = a.Email,
+                Password = a.Password,
+                OnlineId = a.OnlineId,
+                BirthDate = a.BirthDate,
+                DeactivationDate = a.DeactivationDate,
+                Games = a.Games.Select(a => new GameAccount()
+                {
+                    Game = a.Game
+                }).ToList()
+            });
 
             return query;
         }

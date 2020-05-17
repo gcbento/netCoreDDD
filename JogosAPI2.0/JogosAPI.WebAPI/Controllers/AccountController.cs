@@ -28,10 +28,19 @@ namespace JogosAPI.WebAPI.Controllers
         }
 
         [HttpGet]
-        public ActionResult Get([FromQuery] AccountFilter filter)
+        [ValidateFilterModel]
+        public ActionResult Get([FromQuery] AccountFilter filter, int pageNumber = 0, int pageSize = 0)
         {
-            var list = _service.GetAll(filter);
-            return GetResponse(list);
+            if (pageNumber > 0 && pageSize > 0)
+            {
+                var result = _service.GetAll(filter, pageNumber, pageSize);
+                return GetResponse(result);
+            }
+            else
+            {
+                var result = _service.GetBy(filter);
+                return GetResponse(result);
+            }
         }
 
         [HttpPut]
@@ -45,8 +54,16 @@ namespace JogosAPI.WebAPI.Controllers
         [HttpDelete]
         public ActionResult Delete(int id)
         {
-            var deleted = _service.Delete(id);
-            return GetResponse(deleted);
+            var result = _service.Delete(id);
+            return GetResponse(result);
+        }
+
+        [HttpDelete]
+        [Route("RemoveGame")]
+        public ActionResult RemoveGame([FromQuery] GameAccountRequest request)
+        {
+            var result = _service.RemoveGame(request);
+            return GetResponse(result);
         }
     }
 }

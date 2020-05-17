@@ -8,13 +8,14 @@ using System;
 
 namespace JogosAPI.Domain.Validations
 {
-    public class GameValidation : BaseValidation<Game, GameFilter>, IGameValidation
+    public class GameValidation : BaseValidation<Game, GameFilter, IGameRepository>, IGameValidation
     {
         private readonly IAccountRepository _accountRepository;
 
         public GameValidation(IGameRepository repository, IAccountRepository accountRepository) : base(repository)
         {
             _accountRepository = accountRepository;
+            ValidatesBase();
             Validate();
         }
 
@@ -23,8 +24,6 @@ namespace JogosAPI.Domain.Validations
             try
             {
                 var accountId = 0;
-                RuleFor(g => g.Id)
-                    .Must((game, id) => GameIdExists(game)).WithMessage(g => $"Jogo id '{g.Id}' não encontrado");
 
                 RuleFor(g => g.Name)
                     .NotEmpty().WithMessage("Nome do jogo é obrigatório.")
@@ -38,18 +37,6 @@ namespace JogosAPI.Domain.Validations
             {
                 throw ex;
             }
-        }
-
-        private bool GameIdExists(Game game)
-        {
-            if (game.Id > 0)
-            {
-                Filter.Id = game.Id;
-                var objGame = Repository.GetAll(Filter).FirstOrDefault();
-                return objGame != null;
-            }
-
-            return true;
         }
 
         private bool CheckGameAlreadyAdd(Game game)
@@ -73,28 +60,6 @@ namespace JogosAPI.Domain.Validations
                     var account = _accountRepository.GetAll(new AccountFilter() { Id = accountsId.AccountId }).FirstOrDefault();
 
                     if (account == null)
-                    {
-                        accountId = accountsId.AccountId;
-                        return false;
-                    }
-                }
-            }
-
-            return true;
-        }
-
-        private bool CheckAccountAlreadyAdd(Game game, out int accountId)
-        {
-            accountId = 0;
-            if (game.Accounts != null && game.Accounts.Count > 0)
-            {
-                foreach (var accountsId in game.Accounts)
-                {
-                    Filter = new GameFilter();
-                    Filter.AccountId = accountsId.AccountId;
-                    var gamesByAccountId = Repository.GetAll(Filter).ToList();
-
-                    if (gamesByAccountId.Count > 0)
                     {
                         accountId = accountsId.AccountId;
                         return false;

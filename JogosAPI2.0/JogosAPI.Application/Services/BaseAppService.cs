@@ -6,6 +6,7 @@ using JogosAPI.Domain.CommandHandlers;
 using JogosAPI.Domain.Entities;
 using JogosAPI.Domain.Filters;
 using JogosAPI.Domain.Interfaces;
+using JogosAPI.Domain.Queries;
 using JogosAPI.Domain.Util;
 using JogosAPI.Domain.Validations.Interfaces;
 using System;
@@ -82,7 +83,7 @@ namespace JogosAPI.Application.Services
             catch (Exception ex)
             {
                 var response = ResponseModel<bool?>.GetErrorResponse();
-                CommandHandler.AddLogger(Logger, ex.Message, EnunsAPI.Logtype.Error, $"id = {id.ToString()}", response.ToJsonString());
+                CommandHandler.AddLogger(Logger, ex.Message, EnunsAPI.Logtype.Error, $"id = {id}", response.ToJsonString());
 
                 return response;
             }
@@ -92,8 +93,24 @@ namespace JogosAPI.Application.Services
         {
             try
             {
-                var list = Mapper.Map<List<TResponse>>(Repository.GetAll(filter).ToList());
-                var pagedResponse = new PagedResponse<TResponse>() { ListData = list };
+                var pagedResponse = new PagedResponse<TResponse>();
+                var listResponse = new List<TResponse>();
+
+                var allEntity = Repository.GetAll(filter, true);
+
+                if (allEntity != null && allEntity.Count() > 0)
+                {
+                    pagedResponse.Total = allEntity.Count();
+                    pagedResponse.CurrentPage = pageNumber;
+
+                    var listEntity = allEntity.Pagination(pageNumber, pageSize)
+                                              .ToList();
+
+                    listResponse = Mapper.Map<List<TResponse>>(listEntity);
+
+                    pagedResponse.TotalPage = listResponse.Count;
+                    pagedResponse.ListData = listResponse;
+                }
                 var resultList = ResponseModel<PagedResponse<TResponse>>.GetResponse(pagedResponse);
 
                 return resultList;

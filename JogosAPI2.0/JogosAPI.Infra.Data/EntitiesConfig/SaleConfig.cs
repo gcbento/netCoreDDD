@@ -15,8 +15,9 @@ namespace JogosAPI.Infra.Data.EntitiesConfig
 
             builder.HasKey(x => x.Id);
 
-            builder.Property(x => x.Id)
-                .HasColumnName("Id");
+            builder.HasOne(x => x.Game)
+                   .WithMany(x => x.Sales)
+                   .HasForeignKey(x => x.GameId);
         }
     }
 }

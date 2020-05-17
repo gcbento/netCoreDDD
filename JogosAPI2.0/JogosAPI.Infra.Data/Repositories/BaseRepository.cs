@@ -1,6 +1,7 @@
 ﻿using JogosAPI.Domain.Entities;
 using JogosAPI.Domain.Filters;
 using JogosAPI.Domain.Interfaces;
+using JogosAPI.Domain.Queries;
 using JogosAPI.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -56,7 +57,9 @@ namespace JogosAPI.Infra.Data.Repositories
         {
             try
             {
-                return Query;
+                var query = Query.Where(filter)
+                                 .Select();
+                return query;
             }
             catch (Exception ex)
             {
