@@ -55,6 +55,11 @@ namespace JogosAPI.WebAPI
             {
                 options.AllowSynchronousIO = true;
             });
+
+            services.Configure<IISOptions>(o =>
+            {
+                o.ForwardClientCertificate = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -61,7 +61,7 @@ namespace JogosAPI.WebAPI.Configurations
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Equinox Project");
+                c.SwaggerEndpoint("../swagger/v1/swagger.json", "Equinox Project");
             });
         }
     }
